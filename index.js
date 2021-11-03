@@ -18,7 +18,7 @@ const PORT = process.env.PORT | 5000;
 express.get("/", (req, res) => {
   res.send({ message: "server is running" });
 });
-
+console.log("commit")
 //const getSportNews = async () => {
 //   const { data } = await axios.get(
 //     "https://www.thenews.com.pk/latest/category/sports"
