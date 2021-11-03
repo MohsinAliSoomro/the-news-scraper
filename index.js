@@ -1,37 +1,40 @@
 const express = require("express")();
 const axios = require("axios");
 const cheerio = require("cheerio");
-console.log("checking....")
-const getTheNews = async () => {
-  const { data } = await axios.get("https://www.thenews.com.pk/");
-  const $ = cheerio.load(data);
-  $("ul li a", data).each(function (index, element) {
-    const title = $(element).find(".heading-cat").text().replace("\n", "");
-    const href = $(this).attr("href");
-    const image = $(element).find(".news-pic").find("img").attr("data-src");
-  });
-};
+
+const PORT = process.env.PORT | 5000;
+
+// const getTheNews = async () => {
+//   const { data } = await axios.get("https://www.thenews.com.pk/");
+//   const $ = cheerio.load(data);
+//   $("ul li a", data).each(function (index, element) {
+//     const title = $(element).find(".heading-cat").text().replace("\n", "");
+//     const href = $(this).attr("href");
+//     const image = $(element).find(".news-pic").find("img").attr("data-src");
+//   });
+// };
 // getTheNews();
 
-express.get('/',(req,res)=>{
-  res.send({message:"server is running"})
-})
+express.get("/", (req, res) => {
+  res.send({ message: "server is running" });
+});
 
-const getSportNews = async () => {
-  const { data } = await axios.get(
-    "https://www.thenews.com.pk/latest/category/sports"
-  );
-  const $ = cheerio.load(data);
-  $(".detail-center ul li", data).each(function (index, element) {
-    const commonClass = $(element).find(".latest-right");
-    const image = $(element).find("a").find("img").attr("src");
-    const title = commonClass.find("h2").text();
-    const description = commonClass.find("p").text();
-    const date = commonClass.find("span").text();
-  });
-};
+//const getSportNews = async () => {
+//   const { data } = await axios.get(
+//     "https://www.thenews.com.pk/latest/category/sports"
+//   );
+//   const $ = cheerio.load(data);
+//   $(".detail-center ul li", data).each(function (index, element) {
+//     const commonClass = $(element).find(".latest-right");
+//     const image = $(element).find("a").find("img").attr("src");
+//     const title = commonClass.find("h2").text();
+//     const description = commonClass.find("p").text();
+//     const date = commonClass.find("span").text();
+//   });
+// };
 
-getSportNews();
+// getSportNews();
+
 const THE_NEWS = [];
 
 express.get("/the-news", async (req, res) => {
@@ -120,4 +123,4 @@ express.get("/the-sci-tech", async (req, res) => {
   }
 });
 
-express.listen(4000, () => console.log("Server is running on port 4000"));
+express.listen(PORT, () => console.log("Server is running on port 4000"));
