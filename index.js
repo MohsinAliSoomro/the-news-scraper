@@ -13,6 +13,10 @@ const getTheNews = async () => {
 };
 // getTheNews();
 
+express.get('/',(req,res)=>{
+  res.send({message:"server is running"})
+})
+
 const getSportNews = async () => {
   const { data } = await axios.get(
     "https://www.thenews.com.pk/latest/category/sports"
