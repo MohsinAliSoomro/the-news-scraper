@@ -17,7 +17,7 @@ const PORT = process.env.PORT | 5000;
 // getTheNews();
 
 app.get("/", (req, res) => {
-  res.send({ message: "server is running" });
+  res.json({ message: "server is running" });
 });
 
 //const getSportNews = async () => {
