@@ -3,41 +3,14 @@ const app = express();
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const PORT = process.env.PORT ||3000;
+const PORT = process.env.PORT || 3000;
 const END_POINTS = ["the-news", "the-sport", "the-sci-tech", "the-world"];
-// const getTheNews = async () => {
-//   const { data } = await axios.get("https://www.thenews.com.pk/");
-//   const $ = cheerio.load(data);
-//   $("ul li a", data).each(function (index, element) {
-//     const title = $(element).find(".heading-cat").text().replace("\n", "");
-//     const href = $(this).attr("href");
-//     const image = $(element).find(".news-pic").find("img").attr("data-src");
-//   });
-// };
-// getTheNews();
 
 app.get("/", (req, res) => {
   res.json({ message: "server is running", end_points: END_POINTS });
 });
 
-//const getSportNews = async () => {
-//   const { data } = await axios.get(
-//     "https://www.thenews.com.pk/latest/category/sports"
-//   );
-//   const $ = cheerio.load(data);
-//   $(".detail-center ul li", data).each(function (index, element) {
-//     const commonClass = $(element).find(".latest-right");
-//     const image = $(element).find("a").find("img").attr("src");
-//     const title = commonClass.find("h2").text();
-//     const description = commonClass.find("p").text();
-//     const date = commonClass.find("span").text();
-//   });
-// };
-
-// getSportNews();
-
 const THE_NEWS = [];
-
 app.get("/the-news", async (req, res) => {
   try {
     const { data } = await axios.get("https://www.thenews.com.pk/");
@@ -58,6 +31,7 @@ app.get("/the-news", async (req, res) => {
     console.log("the news error", error);
   }
 });
+
 const THE_SPORTS = [];
 app.get("/the-sport", async (req, res) => {
   try {
