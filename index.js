@@ -3,7 +3,7 @@ const app = express();
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const PORT =  3000;
+const PORT = process.env.PORT ||3000;
 const END_POINTS = ["the-news", "the-sport", "the-sci-tech", "the-world"];
 // const getTheNews = async () => {
 //   const { data } = await axios.get("https://www.thenews.com.pk/");
