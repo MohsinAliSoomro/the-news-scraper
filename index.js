@@ -1,10 +1,10 @@
-const express = require("express")
-const app = express()
+const express = require("express");
+const app = express();
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const PORT = process.env.PORT | 5000;
-
+const PORT = process.env.PORT | 3000;
+const END_POINTS = ["the-news", "the-sport", "the-sci-tech", "the-world"];
 // const getTheNews = async () => {
 //   const { data } = await axios.get("https://www.thenews.com.pk/");
 //   const $ = cheerio.load(data);
@@ -17,7 +17,7 @@ const PORT = process.env.PORT | 5000;
 // getTheNews();
 
 app.get("/", (req, res) => {
-  res.json({ message: "server is running" });
+  res.json({ message: "server is running", end_points: END_POINTS });
 });
 
 //const getSportNews = async () => {
@@ -45,13 +45,13 @@ app.get("/the-news", async (req, res) => {
     const $ = cheerio.load(data);
 
     $(".content ul li a", data).each(function (index, element) {
-      const title = $(this).text().replace('\n'," ")
+      const title = $(this).text().replace("\n", " ");
       const url = $(this).attr("href");
       const image = $(element).find(".news-pic").find("img").attr("data-src");
 
       THE_NEWS.push({ title, url, image: image ? image : "null" });
     });
-    
+
     res.send(THE_NEWS);
   } catch (error) {
     res.send(error);
@@ -124,4 +124,4 @@ app.get("/the-sci-tech", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log("Server is running on port "+PORT));
+app.listen(PORT, () => console.log("Server is running on port " + PORT));
