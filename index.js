@@ -1,4 +1,5 @@
-const express = require("express")();
+const express = require("express")
+const app = express()
 const axios = require("axios");
 const cheerio = require("cheerio");
 
@@ -15,10 +16,10 @@ const PORT = process.env.PORT | 5000;
 // };
 // getTheNews();
 
-express.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send({ message: "server is running" });
 });
-console.log("commit")
+
 //const getSportNews = async () => {
 //   const { data } = await axios.get(
 //     "https://www.thenews.com.pk/latest/category/sports"
@@ -37,20 +38,20 @@ console.log("commit")
 
 const THE_NEWS = [];
 
-express.get("/the-news", async (req, res) => {
+app.get("/the-news", async (req, res) => {
   try {
     const { data } = await axios.get("https://www.thenews.com.pk/");
 
     const $ = cheerio.load(data);
 
     $(".content ul li a", data).each(function (index, element) {
-      const title = $(this).text();
+      const title = $(this).text().replace('\n'," ")
       const url = $(this).attr("href");
       const image = $(element).find(".news-pic").find("img").attr("data-src");
 
       THE_NEWS.push({ title, url, image: image ? image : "null" });
     });
-
+    
     res.send(THE_NEWS);
   } catch (error) {
     res.send(error);
@@ -58,7 +59,7 @@ express.get("/the-news", async (req, res) => {
   }
 });
 const THE_SPORTS = [];
-express.get("/the-sport", async (req, res) => {
+app.get("/the-sport", async (req, res) => {
   try {
     const { data } = await axios.get(
       "https://www.thenews.com.pk/latest/category/sports"
@@ -81,7 +82,7 @@ express.get("/the-sport", async (req, res) => {
 });
 
 const THE_WORDS = [];
-express.get("/the-world", async (req, res) => {
+app.get("/the-world", async (req, res) => {
   try {
     const { data } = await axios.get(
       "https://www.thenews.com.pk/latest/category/world"
@@ -104,7 +105,7 @@ express.get("/the-world", async (req, res) => {
 });
 
 const THE_POPULAR = [];
-express.get("/the-sci-tech", async (req, res) => {
+app.get("/the-sci-tech", async (req, res) => {
   try {
     const { data } = await axios.get(
       "https://www.thenews.com.pk/latest/category/sci-tech"
@@ -123,4 +124,4 @@ express.get("/the-sci-tech", async (req, res) => {
   }
 });
 
-express.listen(PORT, () => console.log("Server is running on port 4000"));
+app.listen(PORT, () => console.log("Server is running on port "+PORT));
